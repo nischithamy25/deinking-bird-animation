@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bird Drinking Water Animation</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f0f0f0;
+    }
+    svg {
+      overflow: visible;
+    }
+    .bird {
+      transform-origin: bottom center;
+    }
+    .beak {
+      fill: #FFA500;
+    }
+    .water {
+      fill: #00BFFF;
+    }
+  </style>
+</head>
+<body>
+  <svg width="400" height="300" viewBox="0 0 400 300">
+    <!-- Bird1 -->
+    <g class="bird" transform="translate(100, 260)">
+      <!-- Body -->
+      <ellipse cx="200" cy="150" rx="20" ry="50" fill="#FF6347"/>
+      <!-- Head -->
+      <circle cx="200" cy="100" r="15" fill="#FFD700"/>
+      <!-- Beak -->
+      <polygon points="210,100 220,110 210,110" class="beak"/>
+      <!-- Hat -->
+      <rect x="185" y="70" width="30" height="10" fill="#000"/>
+      <rect x="190" y="60" width="20" height="10" fill="#000"/>
+    </g>
+    
+    <!-- Water Glass -->
+    <g class="glass" transform="translate(200, 180)" >
+      <rect x="160" y="240" width="80" height="60" fill="none" stroke="#000" stroke-width="2"/>
+      <rect class="water" x="160" y="270" width="80" height="30"/>
+    </g>
+    
+    <!-- Bird2 -->
+    <g class="bird" transform="translate(300, 260)">
+      <!-- Body -->
+      <ellipse cx="200" cy="150" rx="20" ry="50" fill="#FF6347"/>
+      <!-- Head -->
+      <circle cx="200" cy="100" r="15" fill="#FFD700"/>
+      <!-- Beak -->
+      <polygon points="190,100 180,110 190,110" class="beak"/>
+      <!-- Hat -->
+      <rect x="185" y="70" width="30" height="10" fill="#000"/>
+      <rect x="190" y="60" width="20" height="10" fill="#000"/>
+    </g>
+  </svg>
+
+  <script>
+    const tl = gsap.timeline({ repeat: -1, repeatDelay: 1 });
+
+    tl.to(".bird:first-child", {
+      rotation: 42,
+      duration: 2,
+      transformOrigin: "bottom center",
+      ease: "power1.inOut",
+      onStart: function() {
+        gsap.to(".bird:first-child .beak", { scaleY: 0.5, transformOrigin: "bottom", duration: 0.5, ease: "power1.inOut" });
+      }
+    })
+    .to(".bird:first-child", {
+      rotation: 0,
+      duration: 1,
+      transformOrigin: "bottom center",
+      ease: "power1.inOut",
+      onStart: function() {
+        gsap.to(".bird:first-child .beak", { scaleY: 1, transformOrigin: "bottom", duration: 0.5, ease: "power1.inOut" });
+      },
+       onUpdate: function() {
+        // Adjust water level based on the animation progress
+        if (this.progress() > 0.85 || this.progress() < 0.55) {
+          gsap.to(".water", { y: "+=5", height: "-=5", duration: 0.5, ease: "power1.inOut" });
+        }
+      }
+    })
+    .to(".bird:last-child", {
+      rotation: -42,
+      duration: 2,
+      transformOrigin: "bottom center",
+      ease: "power1.inOut",
+      onStart: function() {
+        gsap.to(".bird:last-child .beak", { scaleY: 0.5, transformOrigin: "bottom", duration: 0.5, ease: "power1.inOut" });
+      }
+    })
+    .to(".bird:last-child", {
+      rotation: 0,
+      duration: 1,
+      transformOrigin: "bottom center",
+      ease: "power1.inOut",
+      onStart: function() {
+        gsap.to(".bird:last-child .beak", { scaleY: 1, transformOrigin: "bottom", duration: 0.5, ease: "power1.inOut" });
+      },
+      onUpdate: function() {
+        // Adjust water level based on the animation progress
+        if (this.progress() > 0.85 || this.progress() < 0.55) {
+          gsap.to(".water", { y: "+=5", height: "-=5", duration: 0.5, ease: "power1.inOut" });
+        }
+      }
+    });
+  </script>
+</body>
+</html>
